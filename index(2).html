@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proxy Generator Pro - IP Without ASN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,sans-serif;background:#0b1020;color:#fff;height:100vh}
+.app{display:flex;height:100vh}
+.sidebar{width:260px;background:#111827;border-right:1px solid #253047;padding:20px;display:flex;flex-direction:column}
+.logo{font-size:22px;font-weight:700;margin-bottom:25px;background:linear-gradient(135deg,#60a5fa,#3b82f6);-webkit-background-clip:text;background-clip:text;color:transparent}
+.nav button{width:100%;padding:14px;border:none;border-radius:12px;margin-bottom:10px;background:#1f2937;color:#fff;cursor:pointer;font-weight:500;transition:all 0.2s}
+.nav button.active,.nav button:hover{background:#2563eb;box-shadow:0 4px 8px rgba(37,99,235,0.3)}
+.main{flex:1;padding:25px;overflow:auto}
+.page{display:none}
+.page.active{display:block}
+.card{background:#111827;border:1px solid #253047;border-radius:24px;padding:24px;box-shadow:0 8px 20px rgba(0,0,0,0.3)}
+h2{margin-bottom:20px;font-size:1.6rem;font-weight:600;letter-spacing:-0.3px}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:18px;margin-bottom:8px}
+label{display:block;margin-bottom:8px;color:#cbd5e1;font-size:0.85rem;font-weight:500}
+input,textarea{width:100%;padding:12px 14px;border-radius:12px;border:1px solid #334155;background:#0f172a;color:#fff;font-family:monospace;font-size:0.9rem;transition:border 0.2s}
+input:focus,textarea:focus{outline:none;border-color:#3b82f6;box-shadow:0 0 0 2px rgba(59,130,246,0.2)}
+textarea{height:340px;margin-top:20px;font-family:'Courier New',monospace;resize:vertical}
+.actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px}
+.btn{padding:10px 20px;border:none;border-radius:12px;cursor:pointer;font-weight:600;font-size:0.85rem;transition:transform 0.1s,opacity 0.2s}
+.btn:active{transform:scale(0.97)}
+.primary{background:#2563eb;color:#fff}
+.green{background:#16a34a;color:#fff}
+.orange{background:#ea580c;color:#fff}
+.red{background:#dc2626;color:#fff}
+.purple{background:#8b5cf6;color:#fff}
+.counter{margin-top:12px;color:#94a3b8;font-size:0.85rem;background:#1e293b;display:inline-block;padding:4px 12px;border-radius:20px}
+.toast{position:fixed;bottom:24px;right:24px;background:#1e293b;backdrop-filter:blur(8px);color:#fff;padding:12px 24px;border-radius:40px;box-shadow:0 8px 20px rgba(0,0,0,0.3);border-left:4px solid #3b82f6;display:none;z-index:1000;font-weight:500}
+hr{margin:20px 0;border-color:#253047}
+.badge{font-size:0.7rem;background:#1e293b;padding:2px 8px;border-radius:20px;margin-left:8px;color:#94a3b8}
+</style>
+</head>
+<body>
+<div class="app">
+<div class="sidebar">
+<div class="logo">⚡ Proxy Generator Pro</div>
+<div class="nav">
+<button class="active" onclick="showPage('country',this)">🌍 Country + ASN</button>
+<button onclick="showPage('state',this)">🏛️ State</button>
+<button onclick="showPage('city',this)">🏙️ City</button>
+<button onclick="showPage('noasn',this)">🌀 IP (No ASN)</button>
+<button onclick="showPage('settings',this)">⚙️ Settings</button>
+</div>
+</div>
+
+<div class="main">
+<!-- Country + ASN page -->
+<div id="country" class="page active">
+<div class="card">
+<h2>🌍 Country + ASN Generator</h2>
+<div class="grid">
+<div><label>Country Code</label><input id="countryCode" value="ca" placeholder="us, ca, de"></div>
+<div><label>ASN (Number)</label><input id="asn" value="577" placeholder="577"></div>
+<div><label>Quantity</label><input id="countryQty" value="100" type="number" min="1" max="2000"></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="generateCountry()">⚡ Generate</button>
+<button class="btn green" onclick="copyOut('countryOutput')">📋 Copy</button>
+<button class="btn orange" onclick="downloadWithSpec('countryOutput', 'country')">💾 Download TXT</button>
+<button class="btn red" onclick="clearOut('countryOutput')">🗑️ Clear</button>
+</div>
+<div id="countryCount" class="counter">📊 Generated: 0</div>
+<textarea id="countryOutput" placeholder="Proxies will appear here..."></textarea>
+</div>
+</div>
+
+<!-- State page -->
+<div id="state" class="page">
+<div class="card">
+<h2>🏛️ State Generator</h2>
+<div class="grid">
+<div><label>Country</label><input id="stateCountry" value="us" placeholder="us"></div>
+<div><label>State</label><input id="stateName" value="virginia" placeholder="virginia, california"></div>
+<div><label>Quantity</label><input id="stateQty" value="100" type="number" min="1" max="2000"></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="generateState()">⚡ Generate</button>
+<button class="btn green" onclick="copyOut('stateOutput')">📋 Copy</button>
+<button class="btn orange" onclick="downloadWithSpec('stateOutput', 'state')">💾 Download TXT</button>
+<button class="btn red" onclick="clearOut('stateOutput')">🗑️ Clear</button>
+</div>
+<div id="stateCount" class="counter">📊 Generated: 0</div>
+<textarea id="stateOutput" placeholder="Proxies will appear here..."></textarea>
+</div>
+</div>
+
+<!-- City page -->
+<div id="city" class="page">
+<div class="card">
+<h2>🏙️ City Generator</h2>
+<div class="grid">
+<div><label>Country</label><input id="cityCountry" value="us" placeholder="us"></div>
+<div><label>City</label><input id="cityName" value="Houston" placeholder="Houston, New York"></div>
+<div><label>Quantity</label><input id="cityQty" value="100" type="number" min="1" max="2000"></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="generateCity()">⚡ Generate</button>
+<button class="btn green" onclick="copyOut('cityOutput')">📋 Copy</button>
+<button class="btn orange" onclick="downloadWithSpec('cityOutput', 'city')">💾 Download TXT</button>
+<button class="btn red" onclick="clearOut('cityOutput')">🗑️ Clear</button>
+</div>
+<div id="cityCount" class="counter">📊 Generated: 0</div>
+<textarea id="cityOutput" placeholder="Proxies will appear here..."></textarea>
+</div>
+</div>
+
+<!-- NEW: IP without ASN page (No ASN) -->
+<div id="noasn" class="page">
+<div class="card">
+<h2>🌀 IP Creation (No ASN) <span class="badge">residential | 720 min lifetime</span></h2>
+<p style="color:#94a3b8; margin-bottom:18px; font-size:0.85rem">Generate proxies WITHOUT ASN filtering. Format: <code style="background:#0f172a;padding:4px 8px;border-radius:6px">host:port:username-type-residential-country-XX-lifetime-720-session-{random8}+:uuid</code></p>
+<div class="grid">
+<div><label>Country Code</label><input id="noasnCountry" value="us" placeholder="us, ca, de, fr"></div>
+<div><label>Quantity</label><input id="noasnQty" value="100" type="number" min="1" max="2000"></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="generateNoASN()">🌀 Generate No-ASN IPs</button>
+<button class="btn green" onclick="copyOut('noasnOutput')">📋 Copy All</button>
+<button class="btn orange" onclick="downloadWithSpec('noasnOutput', 'noasn')">💾 Download TXT</button>
+<button class="btn red" onclick="clearOut('noasnOutput')">🗑️ Clear</button>
+</div>
+<div id="noasnCount" class="counter">📊 Generated: 0</div>
+<textarea id="noasnOutput" placeholder="Proxies without ASN will appear here...&#10;Example: us.proxy.geonode.io:12000:geonode_D8QfdNtsY4-type-residential-country-us-lifetime-720-session-8xK9mN2p:25405ea1-757d-4017-9801-e14b084a3025"></textarea>
+</div>
+</div>
+
+<!-- Settings page -->
+<div id="settings" class="page">
+<div class="card">
+<h2>⚙️ Connection Settings</h2>
+<div class="grid">
+<div><label>HOST</label><input id="host" placeholder="proxy host"></div>
+<div><label>PORT</label><input id="port" placeholder="port"></div>
+<div><label>USERNAME (base)</label><input id="username" placeholder="username prefix"></div>
+<div><label>UUID / Password</label><input id="uuid" placeholder="uuid or password"></div>
+</div>
+<div class="actions">
+<button class="btn primary" onclick="saveSettings()">💾 Save Settings</button>
+<button class="btn purple" onclick="resetSettings()">🔄 Reset Defaults</button>
+</div>
+<hr>
+<p style="font-size:12px; color:#6b7280; margin-top:12px">📌 Session ID (random 8 chars) auto-generated for each proxy line. Lifetime 720min for No-ASN mode, 1440min for others.</p>
+</div>
+</div>
+</div>
+</div>
+
+<div id="toast" class="toast"></div>
+
+<script>
+// Default settings (as per your requirement)
+let settings = {
+    host: "us.proxy.geonode.io",
+    port: "12000",
+    username: "geonode_D8QfdNtsY4",
+    uuid: "25405ea1-757d-4017-9801-e14b084a3025"
+};
+
+// Helper: random string of exactly 'n' characters (min 8 for session)
+function rand(n = 8) {
+    const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    let result = "";
+    for (let i = 0; i < n; i++) {
+        result += chars[Math.floor(Math.random() * chars.length)];
+    }
+    return result;
+}
+
+// Ensure session ID is at least 8 chars (we use 8 char random session)
+function getSessionId() {
+    return rand(8); // exactly 8 characters as required
+}
+
+// Generic generator for any pattern (with dynamic lifetime and params)
+function generateProxies(outputId, countId, quantity, buildProxyLineFn) {
+    let qty = parseInt(quantity);
+    if (isNaN(qty) || qty <= 0) qty = 1;
+    if (qty > 5000) qty = 5000;
+    
+    const proxies = [];
+    for (let i = 0; i < qty; i++) {
+        proxies.push(buildProxyLineFn());
+    }
+    const outputText = proxies.join("\n");
+    document.getElementById(outputId).value = outputText;
+    document.getElementById(countId).innerText = "📊 Generated: " + qty;
+    toast(`✅ ${qty} proxy(s) generated successfully!`);
+}
+
+// ----- Country + ASN (lifetime 1440) -----
+function generateCountry() {
+    const countryCode = document.getElementById("countryCode").value.trim();
+    const asn = document.getElementById("asn").value.trim();
+    const qtyElem = document.getElementById("countryQty");
+    if (!countryCode) { toast("⚠️ Enter country code"); return; }
+    if (!asn) { toast("⚠️ Enter ASN number"); return; }
+    
+    generateProxies("countryOutput", "countryCount", qtyElem.value, () => {
+        const session = getSessionId();
+        // pattern: host:port:username-type-residential-country-XX-asn-XXX-lifetime-1440-session-{random}
+        return `${settings.host}:${settings.port}:${settings.username}-type-residential-country-${countryCode}-asn-${asn}-lifetime-1440-session-${session}:${settings.uuid}`;
+    });
+}
+
+// ----- State (lifetime 1440) -----
+function generateState() {
+    const country = document.getElementById("stateCountry").value.trim();
+    const state = document.getElementById("stateName").value.trim();
+    const qtyElem = document.getElementById("stateQty");
+    if (!country) { toast("⚠️ Enter country code"); return; }
+    if (!state) { toast("⚠️ Enter state name"); return; }
+    
+    generateProxies("stateOutput", "stateCount", qtyElem.value, () => {
+        const session = getSessionId();
+        return `${settings.host}:${settings.port}:${settings.username}-type-residential-country-${country}-state-${state}-lifetime-1440-session-${session}:${settings.uuid}`;
+    });
+}
+
+// ----- City (lifetime 1440) -----
+function generateCity() {
+    const country = document.getElementById("cityCountry").value.trim();
+    const city = document.getElementById("cityName").value.trim();
+    const qtyElem = document.getElementById("cityQty");
+    if (!country) { toast("⚠️ Enter country code"); return; }
+    if (!city) { toast("⚠️ Enter city name"); return; }
+    
+    generateProxies("cityOutput", "cityCount", qtyElem.value, () => {
+        const session = getSessionId();
+        return `${settings.host}:${settings.port}:${settings.username}-type-residential-country-${country}-city-${city}-lifetime-1440-session-${session}:${settings.uuid}`;
+    });
+}
+
+// ----- NEW: No ASN (IP without ASN) - lifetime 720, format exactly as requested -----
+// Format: us.proxy.geonode.io:12000:geonode_D8QfdNtsY4-type-residential-country-(country code)-lifetime-720-session-{random8}:uuid
+function generateNoASN() {
+    const country = document.getElementById("noasnCountry").value.trim();
+    const qtyElem = document.getElementById("noasnQty");
+    if (!country) { toast("⚠️ Enter country code for No-ASN mode"); return; }
+    
+    generateProxies("noasnOutput", "noasnCount", qtyElem.value, () => {
+        const session = getSessionId(); // exactly 8 characters random session
+        // Note: username part remains as base username, no ASN added.
+        // lifetime-720 as required
+        return `${settings.host}:${settings.port}:${settings.username}-type-residential-country-${country}-lifetime-720-session-${session}:${settings.uuid}`;
+    });
+}
+
+// ----- Helper: Copy to clipboard -----
+function copyOut(elementId) {
+    const textarea = document.getElementById(elementId);
+    if (!textarea.value.trim()) {
+        toast("⚠️ Nothing to copy, generate proxies first");
+        return;
+    }
+    navigator.clipboard.writeText(textarea.value).then(() => {
+        toast("📋 Copied to clipboard!");
+    }).catch(() => toast("❌ Copy failed"));
+}
+
+// ----- Clear output -----
+function clearOut(elementId) {
+    document.getElementById(elementId).value = "";
+    // also update the corresponding counter if we want to reset count display? but clear just text, counter remains informative
+    // we can reset the counter to 0 for better UX
+    if (elementId === "countryOutput") document.getElementById("countryCount").innerText = "📊 Generated: 0";
+    if (elementId === "stateOutput") document.getElementById("stateCount").innerText = "📊 Generated: 0";
+    if (elementId === "cityOutput") document.getElementById("cityCount").innerText = "📊 Generated: 0";
+    if (elementId === "noasnOutput") document.getElementById("noasnCount").innerText = "📊 Generated: 0";
+    toast("🗑️ Cleared");
+}
+
+// ----- DYNAMIC FILE NAME based on proxy specifications (Country/City/State/NoASN)
+function downloadWithSpec(outputId, pageType) {
+    const content = document.getElementById(outputId).value;
+    if (!content.trim()) {
+        toast("⚠️ No data to download. Generate proxies first!");
+        return;
+    }
+    
+    let fileName = "proxies.txt";
+    const date = new Date();
+    const timestamp = `${date.getFullYear()}-${date.getMonth()+1}-${date.getDate()}_${date.getHours()}-${date.getMinutes()}`;
+    
+    switch(pageType) {
+        case 'country': {
+            const countryCode = document.getElementById("countryCode").value.trim() || "any";
+            const asn = document.getElementById("asn").value.trim() || "asn";
+            fileName = `country_${countryCode}_asn${asn}_${timestamp}.txt`;
+            break;
+        }
+        case 'state': {
+            const stateCountry = document.getElementById("stateCountry").value.trim() || "us";
+            const stateName = document.getElementById("stateName").value.trim().replace(/\s+/g, '_') || "state";
+            fileName = `state_${stateCountry}_${stateName}_${timestamp}.txt`;
+            break;
+        }
+        case 'city': {
+            const cityCountry = document.getElementById("cityCountry").value.trim() || "us";
+            const cityName = document.getElementById("cityName").value.trim().replace(/\s+/g, '_') || "city";
+            fileName = `city_${cityCountry}_${cityName}_${timestamp}.txt`;
+            break;
+        }
+        case 'noasn': {
+            const noasnCountry = document.getElementById("noasnCountry").value.trim() || "global";
+            fileName = `noasn_${noasnCountry}_lifetime720_${timestamp}.txt`;
+            break;
+        }
+        default: fileName = `proxies_${pageType}_${timestamp}.txt`;
+    }
+    
+    // sanitize filename: remove problematic chars
+    fileName = fileName.replace(/[\\/:*?"<>|]/g, '_');
+    
+    const blob = new Blob([content], { type: "text/plain" });
+    const link = document.createElement("a");
+    link.href = URL.createObjectURL(blob);
+    link.download = fileName;
+    link.click();
+    URL.revokeObjectURL(link.href);
+    toast(`📥 Downloaded as "${fileName}"`);
+}
+
+// Legacy download function (keep compatibility)
+function downloadOut(id) {
+    const content = document.getElementById(id).value;
+    if (!content.trim()) { toast("⚠️ Nothing to download"); return; }
+    const blob = new Blob([content], { type: "text/plain" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = "proxies.txt";
+    a.click();
+    URL.revokeObjectURL(a.href);
+    toast("💾 Downloaded as proxies.txt");
+}
+
+// ----- Settings management -----
+function loadSettings() {
+    const stored = localStorage.getItem("proxySettings");
+    if (stored) {
+        try {
+            settings = JSON.parse(stored);
+        } catch(e) { console.warn(e); }
+    }
+    document.getElementById("host").value = settings.host || "us.proxy.geonode.io";
+    document.getElementById("port").value = settings.port || "12000";
+    document.getElementById("username").value = settings.username || "geonode_D8QfdNtsY4";
+    document.getElementById("uuid").value = settings.uuid || "25405ea1-757d-4017-9801-e14b084a3025";
+}
+
+function saveSettings() {
+    const newSettings = {
+        host: document.getElementById("host").value.trim(),
+        port: document.getElementById("port").value.trim(),
+        username: document.getElementById("username").value.trim(),
+        uuid: document.getElementById("uuid").value.trim()
+    };
+    if (!newSettings.host) newSettings.host = "us.proxy.geonode.io";
+    if (!newSettings.port) newSettings.port = "12000";
+    if (!newSettings.username) newSettings.username = "geonode_D8QfdNtsY4";
+    if (!newSettings.uuid) newSettings.uuid = "25405ea1-757d-4017-9801-e14b084a3025";
+    
+    settings = newSettings;
+    localStorage.setItem("proxySettings", JSON.stringify(settings));
+    toast("⚙️ Settings saved successfully!");
+}
+
+function resetSettings() {
+    settings = {
+        host: "us.proxy.geonode.io",
+        port: "12000",
+        username: "geonode_D8QfdNtsY4",
+        uuid: "25405ea1-757d-4017-9801-e14b084a3025"
+    };
+    localStorage.setItem("proxySettings", JSON.stringify(settings));
+    document.getElementById("host").value = settings.host;
+    document.getElementById("port").value = settings.port;
+    document.getElementById("username").value = settings.username;
+    document.getElementById("uuid").value = settings.uuid;
+    toast("🔄 Reset to default proxy credentials");
+}
+
+// ----- UI navigation with active states -----
+function showPage(pageId, btnElement) {
+    document.querySelectorAll(".page").forEach(page => page.classList.remove("active"));
+    document.getElementById(pageId).classList.add("active");
+    document.querySelectorAll(".nav button").forEach(btn => btn.classList.remove("active"));
+    if (btnElement) btnElement.classList.add("active");
+    else {
+        // fallback: find corresponding button by data
+        const btns = document.querySelectorAll(".nav button");
+        const mapping = {country:0, state:1, city:2, noasn:3, settings:4};
+        if(mapping[pageId] !== undefined) btns[mapping[pageId]]?.classList.add("active");
+    }
+}
+
+// Toast message
+function toast(message) {
+    const toastEl = document.getElementById("toast");
+    toastEl.innerText = message;
+    toastEl.style.display = "block";
+    setTimeout(() => {
+        toastEl.style.opacity = "0";
+        setTimeout(() => {
+            toastEl.style.display = "none";
+            toastEl.style.opacity = "1";
+        }, 200);
+    }, 2300);
+}
+
+// Initialize event listeners & set default example values for noasn
+window.onload = () => {
+    loadSettings();
+    // Prefill noasn country default
+    if(!document.getElementById("noasnCountry").value) document.getElementById("noasnCountry").value = "us";
+    if(!document.getElementById("noasnQty").value) document.getElementById("noasnQty").value = "100";
+    
+    // Add Enter key quick generation (optional enhancements)
+    const inputsNoASN = ["noasnCountry", "noasnQty"];
+    inputsNoASN.forEach(id => {
+        const el = document.getElementById(id);
+        if(el) el.addEventListener("keypress", (e) => { if(e.key === "Enter") generateNoASN(); });
+    });
+};
+</script>
+</body>
+</html>
