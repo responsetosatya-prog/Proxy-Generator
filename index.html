@@ -256,15 +256,19 @@ function generateNoASN() {
 }
 
 // ----- Helper: Copy to clipboard -----
-function copyOut(elementId) {
-    const textarea = document.getElementById(elementId);
-    if (!textarea.value.trim()) {
-        toast("⚠️ Nothing to copy, generate proxies first");
-        return;
-    }
-    navigator.clipboard.writeText(textarea.value).then(() => {
-        toast("📋 Copied to clipboard!");
-    }).catch(() => toast("❌ Copy failed"));
+function copyOut(id){
+
+    const textarea =
+    document.getElementById(id);
+
+    navigator.clipboard.writeText(
+        textarea.value
+    );
+
+    textarea.value = "";
+
+    toast("Copied & Cleared");
+
 }
 
 // ----- Clear output -----
