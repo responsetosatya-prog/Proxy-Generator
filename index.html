@@ -41,12 +41,12 @@ hr{margin:20px 0;border-color:#253047}
 <body>
 <div class="app">
 <div class="sidebar">
-<div class="logo">⚡ Proxy Generator Pro</div>
+<div class="logo">⚡ Proxy Generator</div>
 <div class="nav">
-<button class="active" onclick="showPage('country',this)">🌍 Country + ASN</button>
+<button class="active" onclick="showPage('country',this)">🌍 Country ASN</button>
 <button onclick="showPage('state',this)">🏛️ State</button>
 <button onclick="showPage('city',this)">🏙️ City</button>
-<button onclick="showPage('noasn',this)">🌀 IP (No ASN)</button>
+<button onclick="showPage('noasn',this)">🌀 IP </button>
 <button onclick="showPage('settings',this)">⚙️ Settings</button>
 </div>
 </div>
@@ -55,11 +55,11 @@ hr{margin:20px 0;border-color:#253047}
 <!-- Country + ASN page -->
 <div id="country" class="page active">
 <div class="card">
-<h2>🌍 Country + ASN Generator</h2>
+<h2>🌍 Country Generator</h2>
 <div class="grid">
-<div><label>Country Code</label><input id="countryCode" value="ca" placeholder="us, ca, de"></div>
-<div><label>ASN (Number)</label><input id="asn" value="577" placeholder="577"></div>
-<div><label>Quantity</label><input id="countryQty" value="100" type="number" min="1" max="2000"></div>
+<div><label>Country</label><input id="countryCode" value= ></div>
+<div><label>ASN</label><input id="asn" value= ></div>
+<div><label>Quantity</label><input id="countryQty" value= 10></div>
 </div>
 <div class="actions">
 <button class="btn primary" onclick="generateCountry()">⚡ Generate</button>
@@ -77,9 +77,9 @@ hr{margin:20px 0;border-color:#253047}
 <div class="card">
 <h2>🏛️ State Generator</h2>
 <div class="grid">
-<div><label>Country</label><input id="stateCountry" value="us" placeholder="us"></div>
-<div><label>State</label><input id="stateName" value="virginia" placeholder="virginia, california"></div>
-<div><label>Quantity</label><input id="stateQty" value="100" type="number" min="1" max="2000"></div>
+<div><label>Country</label><input id="stateCountry" value= ></div>
+<div><label>State</label><input id="stateName" value= ></div>
+<div><label>Quantity</label><input id="stateQty" value= 10></div>
 </div>
 <div class="actions">
 <button class="btn primary" onclick="generateState()">⚡ Generate</button>
@@ -97,9 +97,9 @@ hr{margin:20px 0;border-color:#253047}
 <div class="card">
 <h2>🏙️ City Generator</h2>
 <div class="grid">
-<div><label>Country</label><input id="cityCountry" value="us" placeholder="us"></div>
-<div><label>City</label><input id="cityName" value="Houston" placeholder="Houston, New York"></div>
-<div><label>Quantity</label><input id="cityQty" value="100" type="number" min="1" max="2000"></div>
+<div><label>Country</label><input id="cityCountry" value= ></div>
+<div><label>City</label><input id="cityName" value= ></div>
+<div><label>Quantity</label><input id="cityQty" value= 10></div>
 </div>
 <div class="actions">
 <button class="btn primary" onclick="generateCity()">⚡ Generate</button>
@@ -115,20 +115,20 @@ hr{margin:20px 0;border-color:#253047}
 <!-- NEW: IP without ASN page (No ASN) -->
 <div id="noasn" class="page">
 <div class="card">
-<h2>🌀 IP Creation (No ASN) <span class="badge">residential | 720 min lifetime</span></h2>
-<p style="color:#94a3b8; margin-bottom:18px; font-size:0.85rem">Generate proxies WITHOUT ASN filtering. Format: <code style="background:#0f172a;padding:4px 8px;border-radius:6px">host:port:username-type-residential-country-XX-lifetime-720-session-{random8}+:uuid</code></p>
+<h2>🌀 IP Generator </h2>
+<p style="color:#94a3b8; margin-bottom:18px; font-size:0.85rem">
 <div class="grid">
-<div><label>Country Code</label><input id="noasnCountry" value="us" placeholder="us, ca, de, fr"></div>
-<div><label>Quantity</label><input id="noasnQty" value="100" type="number" min="1" max="2000"></div>
+<div><label>Country</label><input id="noasnCountry" value= ></div>
+<div><label>Quantity</label><input id="noasnQty" value= 10></div>
 </div>
 <div class="actions">
-<button class="btn primary" onclick="generateNoASN()">🌀 Generate No-ASN IPs</button>
-<button class="btn green" onclick="copyOut('noasnOutput')">📋 Copy All</button>
+<button class="btn primary" onclick="generateNoASN()">⚡ Generate</button>
+<button class="btn green" onclick="copyOut('noasnOutput')">📋 Copy</button>
 <button class="btn orange" onclick="downloadWithSpec('noasnOutput', 'noasn')">💾 Download TXT</button>
 <button class="btn red" onclick="clearOut('noasnOutput')">🗑️ Clear</button>
 </div>
 <div id="noasnCount" class="counter">📊 Generated: 0</div>
-<textarea id="noasnOutput" placeholder="Proxies without ASN will appear here...&#10;Example: us.proxy.geonode.io:12000:geonode_D8QfdNtsY4-type-residential-country-us-lifetime-720-session-8xK9mN2p:25405ea1-757d-4017-9801-e14b084a3025"></textarea>
+<textarea id="noasnOutput" placeholder="Proxies will appear here..."></textarea>
 </div>
 </div>
 
@@ -147,7 +147,7 @@ hr{margin:20px 0;border-color:#253047}
 <button class="btn purple" onclick="resetSettings()">🔄 Reset Defaults</button>
 </div>
 <hr>
-<p style="font-size:12px; color:#6b7280; margin-top:12px">📌 Session ID (random 8 chars) auto-generated for each proxy line. Lifetime 720min for No-ASN mode, 1440min for others.</p>
+<p style="font-size:12px; color:#6b7280; margin-top:12px">Made by Satyam (Sr. Research Associate)</p>
 </div>
 </div>
 </div>
@@ -313,7 +313,7 @@ function downloadWithSpec(outputId, pageType) {
             fileName = `noasn_${noasnCountry}_lifetime720_${timestamp}.txt`;
             break;
         }
-        default: fileName = `proxies_${pageType}_${timestamp}.txt`;
+        default: fileName = `proxies_${pageType} .txt`;
     }
     
     // sanitize filename: remove problematic chars
@@ -419,8 +419,8 @@ function toast(message) {
 window.onload = () => {
     loadSettings();
     // Prefill noasn country default
-    if(!document.getElementById("noasnCountry").value) document.getElementById("noasnCountry").value = "us";
-    if(!document.getElementById("noasnQty").value) document.getElementById("noasnQty").value = "100";
+    if(!document.getElementById("noasnCountry").value) document.getElementById("noasnCountry").value = "";
+    if(!document.getElementById("noasnQty").value) document.getElementById("noasnQty").value = "10";
     
     // Add Enter key quick generation (optional enhancements)
     const inputsNoASN = ["noasnCountry", "noasnQty"];
