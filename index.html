@@ -140,21 +140,22 @@
       flex-wrap:nowrap;
       min-height:60px;
     }
-    .logo {
-      font-size:18px;
-      font-weight:700;
-      letter-spacing:-0.3px;
-      background:linear-gradient(145deg,#1a3b6b,#2d5aa0);
-      -webkit-background-clip:text;
-      -webkit-text-fill-color:transparent;
-      background-clip:text;
+    .logo-link {
       display:flex;
       align-items:center;
-      gap:6px;
-      white-space:nowrap;
+      text-decoration:none;
       flex-shrink:0;
+      transition:transform 0.2s ease;
     }
-    .logo::before { content:"✦"; font-size:20px; -webkit-text-fill-color:#2d5aa0; }
+    .logo-link:hover {
+      transform:scale(1.04);
+    }
+    .logo-img {
+      height:38px;
+      width:auto;
+      filter:drop-shadow(0 2px 8px rgba(45,90,160,0.15));
+      display:block;
+    }
 
     .tabs {
       display:flex;
@@ -674,7 +675,7 @@
 
     @media (max-width: 1100px) {
       .tab-btn { font-size:0.7rem; padding:5px 10px; }
-      .logo { font-size:16px; }
+      .logo-img { height:32px; }
       .header { padding:10px 16px; gap:10px; }
       .month-card .days-grid { grid-template-columns:repeat(auto-fill, minmax(90px, 1fr)); }
     }
@@ -683,7 +684,7 @@
       .header { padding:8px 12px; flex-wrap:nowrap; gap:8px; }
       .tabs { gap:1px; }
       .tab-btn { padding:4px 8px; font-size:0.6rem; }
-      .logo { font-size:14px; }
+      .logo-img { height:28px; }
       .main { padding:12px; }
       .tools-add-section .row { grid-template-columns:1fr; }
       .tools-filter-row .search-wrap { flex:1 1 100%; }
@@ -702,7 +703,15 @@
 <body>
 <div class="app">
   <div class="header">
-    <div class="logo">Survey Tools 2.0</div>
+    <!-- Logo link -->
+    <a href="https://www.surveycaptures.in/" target="_blank" rel="noopener noreferrer" class="logo-link" aria-label="Survey Captures">
+      <img 
+        src="https://www.surveycaptures.in/_next/image?url=%2Fimages%2Fsurvey-captures-logo.png&w=256&q=75" 
+        alt="Survey Captures" 
+        class="logo-img"
+        loading="lazy"
+      >
+    </a>
     <div class="tabs" id="tabContainer">
       <button class="tab-btn active" data-page="country"><i>🌍</i> Country</button>
       <button class="tab-btn" data-page="state"><i>🏛️</i> State</button>
